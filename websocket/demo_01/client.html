@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .message{
+            width: 60%;
+            margin: 0 10px;
+            display: inline-block;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20px;
+            border-radius: 5px;
+            border: 1px solid #B3D33F;
+        }
+        .form{
+            width:100%;
+            position: fixed;
+            bottom: 300px;
+            left: 0;
+        }
+        .connect{
+            height: 40px;
+            vertical-align: top;
+            /* padding: 0; */
+            width: 80px;
+            font-size: 20px;
+            border-radius: 5px;
+            border: none;
+            background: #B3D33F;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<ul id="content"></ul>
+<form class="form">
+<input type="text" placeholder="please input message" class="message" id="message"/>
+<input type="button" value="send" id="send" class="connect"/>
+<input type="button" value="connect" id="connect" class="connect"/>
+<input type="button" value="connect" id="close" class="close"/>
+</form>
+	<script>
+		var oUl=document.getElementById('content');
+		var oConnect=document.getElementById('connect');
+		var oSend=document.getElementById('send');
+		var oClose = document.getElementById('close');
+		var oInput=document.getElementById('message');
+		var ws=null;
+		oConnect.onclick=function(){
+			if(ws != null){
+				return;
+			}
+				
+			ws=new WebSocket('ws://192.168.2.96:5000');
+			ws.onopen=function(){
+				oUl.innerHTML+="<li><b><em>connect success</em></b></li>";
+			}
+			ws.onmessage=function(evt){
+				oUl.innerHTML+="<li>"+evt.data+"</li>";
+			}
+			ws.onclose=function(){
+				oUl.innerHTML+="<li><b><em>close current connect</em></b></li>";
+			};
+			ws.onerror=function(evt){
+				oUl.innerHTML+="<li>"+evt.data+"</li>";	 	 
+			};
+		};
+		oSend.onclick=function(){
+			if(ws){
+				ws.send(oInput.value);
+			}else{
+				oUl.innerHTML+="<li><b><em>please create a connect at first time</em></b></li>";
+			}
+		}
+		oClose.onclick=function(){		
+			ws.close();
+			ws = null;
+		}
+	</script>
+	
+</body>
+</html>

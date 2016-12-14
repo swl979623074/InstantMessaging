@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>client</title>
+		
+	</head>
+	<body>
+		<script>
+			function process(data){
+				console.log(data);
+			}
+			var dataStream = function (url) {
+				var ifr = document.createElement("iframe"),timer;
+				ifr.src = url;
+				document.body.appendChild(ifr);
+			};
+			dataStream('http://localhost:8088/htmlfile');
+		</script>
+	</body>
+</html>

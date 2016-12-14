@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>client</title>
+		
+	</head>
+	<body>
+		<script>
+			function callback(data){
+				console.log("the remote data is: "+data);
+			}
+			function sendJsonp(url){
+				var oScript=document.createElement("script");
+				oScript.src=url;
+				oScript.setAttribute('type',"text/javascript");
+				document.getElementsByTagName('head')[0].appendChild(oScript);
+			}
+			setInterval(function(){
+				sendJsonp('http://localhost:8088/jsonp?cb=callback');
+			},1000);
+		</script>
+	</body>
+</html>
